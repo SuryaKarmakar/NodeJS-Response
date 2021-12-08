@@ -1,34 +1,25 @@
 const http = require("http");
+const data = require("./data");
+let fs = require("fs");
 
 const PORT = 8000;
-const data = [
-  {
-    id: 1,
-    name: "user 1",
-    age: 21,
-  },
-  {
-    id: 2,
-    name: "user 2",
-    age: 23,
-  },
-  {
-    id: 3,
-    name: "user 3",
-    age: 20,
-  },
-  {
-    id: 4,
-    name: "user 4",
-    age: 27,
-  },
-];
 
 const requestListener = (req, res) => {
   //   res.write("<h1>Welcome to vanilla node server</h1>");
   //   res.end();
-  res.write(JSON.stringify(data));
-  res.end();
+
+  //   res.write(JSON.stringify(data));
+  //   res.end();
+
+  fs.readFile("./index.html", null, function (error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write("Whoops! File not found!");
+    } else {
+      res.write(data);
+    }
+    res.end();
+  });
 };
 const server = http.createServer(requestListener);
 
